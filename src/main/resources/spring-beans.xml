@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- StringPrinter 클래스를 Spring Bean으로 등록 -->
+	<bean id="strPrinter" class="myspring.di.xml.StringPrinter"/>
+	
+	<!-- ConsolePrinter 클래스를 Spring Bean으로 등록 -->
+	<bean id="conPrinter" class="myspring.di.xml.ConsolePrinter"/>
+	
+	<!-- Hello 클래스를 Spring Bean으로 등록 -->
+	<!-- 같은 bean을 계속 반환해주는 것  = singleton(defult) <<가장 많이 쓰임 / 독립적 = prototype -->
+	<bean id="helloC" class="myspring.di.xml.Hello">
+		<!-- Constructor Injection -->
+		<!-- No constructor with 1 argument defined in class 'myspring.di.xml.Hello' -->
+		<!-- 생성자가 하나밖에 없어서 나는 오류 -->
+		<constructor-arg index="0" value="생성자"/>
+		<constructor-arg index="1" ref="conPrinter"/>
+		<property name="names"> <!-- names 메소드가 호출 -->
+			<list>
+				<value>SpringFramework</value>
+				<value>SpringBoot</value>
+				<value>SpringCloud</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
+		<!-- Setter Injection -->
+		<property name="name" value="스프링"/>
+		<property name="printer" ref="strPrinter"/>
+	</bean>
+</beans>
